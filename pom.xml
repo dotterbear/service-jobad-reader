@@ -24,7 +24,7 @@
 		<jasypt-spring-boot-starter.version>2.1.0</jasypt-spring-boot-starter.version>
 		<spring-data-dynamodb.version>5.0.4</spring-data-dynamodb.version>
 		<commons-io.version>2.6</commons-io.version>
-		<default.package>com.dotterbear.jobad.swagger.codegen</default.package>
+		<default.package>com.dotterbear.jobad.api</default.package>
 	</properties>
 
 	<dependencies>
@@ -96,6 +96,12 @@
 			<artifactId>gson-fire</artifactId>
 			<version>1.8.3</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.5.21</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -115,14 +121,15 @@
 						</goals>
 						<configuration>
 							<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
-							<language>java</language>
+							<language>spring</language>
 							<output>${project.build.directory}/generated-sources</output>
-							<apiPackage>${default.package}.handler</apiPackage>
+							<apiPackage>${default.package}.endpoint</apiPackage>
 							<modelPackage>${default.package}.model</modelPackage>
-							<invokerPackage>${default.package}.handler</invokerPackage>
+							<invokerPackage>${default.package}.invoker</invokerPackage>
 							<configOptions>
-								<sourceFolder>src/gen/java/main</sourceFolder>
 								<dateLibrary>joda</dateLibrary>
+								<interfaceOnly>true</interfaceOnly>
+								<java8>true</java8>
 							</configOptions>
 						</configuration>
 					</execution>
