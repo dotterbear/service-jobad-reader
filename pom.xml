@@ -3,19 +3,28 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.springframework</groupId>
-	<artifactId>gs-accessing-data-mongodb</artifactId>
-	<version>0.1.0</version>
+	<groupId>dotterbear</groupId>
+	<artifactId>service-jobad-reader</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>service-jobad-reader</name>
+	<description>Service for jobad reader</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.5.RELEASE</version>
-		<relativePath />
+		<version>2.0.8.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
+		<spring-data.version>Hopper-SR10</spring-data.version>
+		<springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+		<jasypt-spring-boot-starter.version>2.1.0</jasypt-spring-boot-starter.version>
+		<spring-data-dynamodb.version>5.0.4</spring-data-dynamodb.version>
+		<commons-io.version>2.6</commons-io.version>
+		<default.package>com.dotterbear.jobad.swagger.codegen</default.package>
 	</properties>
 
 	<dependencies>
@@ -35,16 +44,57 @@
 			<version>1.11.3</version>
 		</dependency>
 		<dependency>
-			<groupId>io.github.openfeign</groupId>
-			<artifactId>feign-okhttp</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.github.openfeign</groupId>
-			<artifactId>feign-gson</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.github.openfeign</groupId>
-			<artifactId>feign-slf4j</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>
+				spring-cloud-starter-netflix-eureka-client
+			</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-codegen -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-codegen</artifactId>
+			<version>2.1.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.squareup.okhttp/okhttp -->
+		<dependency>
+			<groupId>com.squareup.okhttp</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>2.7.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.squareup.okhttp/logging-interceptor -->
+		<dependency>
+			<groupId>com.squareup.okhttp</groupId>
+			<artifactId>logging-interceptor</artifactId>
+			<version>2.7.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.gsonfire/gson-fire -->
+		<dependency>
+			<groupId>io.gsonfire</groupId>
+			<artifactId>gson-fire</artifactId>
+			<version>1.8.3</version>
 		</dependency>
 	</dependencies>
 
@@ -53,6 +103,30 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>2.3.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
+							<language>java</language>
+							<output>${project.build.directory}/generated-sources</output>
+							<apiPackage>${default.package}.handler</apiPackage>
+							<modelPackage>${default.package}.model</modelPackage>
+							<invokerPackage>${default.package}.handler</invokerPackage>
+							<configOptions>
+								<sourceFolder>src/gen/java/main</sourceFolder>
+								<dateLibrary>joda</dateLibrary>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
