@@ -1,34 +1,19 @@
 package com.dotterbear.jobad.reader;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.mongodb.core.BulkOperations.BulkMode;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.dotterbear.jobad.reader.data.model.JobAd;
 import com.dotterbear.jobad.reader.data.repo.JobAdRepository;
-import com.dotterbear.jobad.reader.html.JobsDbHtmlReader;
-import com.dotterbear.jobad.reader.remote.client.RssFeedClient;
-import com.dotterbear.jobad.reader.remote.dto.RssFeedDto;
-
-import feign.Feign;
-import feign.gson.GsonDecoder;
-import feign.gson.GsonEncoder;
-import feign.slf4j.Slf4jLogger;
 
 @SpringBootApplication
-public class JobAdRecorder implements CommandLineRunner {
+@EnableEurekaClient
+public class JobAdRecorder {
 
 	@Autowired
 	private JobAdRepository jobAdRepository;
@@ -43,7 +28,7 @@ public class JobAdRecorder implements CommandLineRunner {
 		SpringApplication.run(JobAdRecorder.class, args);
 	}
 
-	@Override
+	
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 //		List<String> links = Arrays.asList(new String[] {
@@ -61,26 +46,26 @@ public class JobAdRecorder implements CommandLineRunner {
 //		mongoTemplate.bulkOps(BulkMode.UNORDERED, JobAd.class)
 //				.insert(jobAds)
 //				.execute();
-		RssFeedClient rssFeedClient = Feign.builder()
-				  .encoder(new GsonEncoder())
-				  .decoder(new GsonDecoder())
-				  .logger(new Slf4jLogger(RssFeedClient.class))
-				  .target(RssFeedClient.class, "http://34.73.206.62:8762/");
-		RssFeedDto rssFeedDto = rssFeedClient.fetchRSSFeed();
-		if (rssFeedDto == null || rssFeedDto.getChannel() == null)
-			return;
-		List<String> links = rssFeedDto.getChannel().getItem()
-				.stream().map(item -> item.getLink()).collect(Collectors.toList());
-		JobsDbHtmlReader jobsDbReader = new JobsDbHtmlReader();
-		List<JobAd> jobAds = links.stream()
-				.map(link -> jobsDbReader.convertDocumentToJobAd(link))
-				.filter(Objects::nonNull)
-				.collect(Collectors.toList());
-		// TODO review batch insert
-		mongoTemplate.bulkOps(BulkMode.UNORDERED, JobAd.class)
-				.insert(jobAds)
-				.execute();
-		System.out.println(rssFeedDto);
+//		RssFeedClient rssFeedClient = Feign.builder()
+//				  .encoder(new GsonEncoder())
+//				  .decoder(new GsonDecoder())
+//				  .logger(new Slf4jLogger(RssFeedClient.class))
+//				  .target(RssFeedClient.class, "http://34.73.206.62:8762/");
+//		RssFeedDto rssFeedDto = rssFeedClient.fetchRSSFeed();
+//		if (rssFeedDto == null || rssFeedDto.getChannel() == null)
+//			return;
+//		List<String> links = rssFeedDto.getChannel().getItem()
+//				.stream().map(item -> item.getLink()).collect(Collectors.toList());
+//		JobsDbHtmlReader jobsDbReader = new JobsDbHtmlReader();
+//		List<JobAd> jobAds = links.stream()
+//				.map(link -> jobsDbReader.convertDocumentToJobAd(link))
+//				.filter(Objects::nonNull)
+//				.collect(Collectors.toList());
+//		// TODO review batch insert
+//		mongoTemplate.bulkOps(BulkMode.UNORDERED, JobAd.class)
+//				.insert(jobAds)
+//				.execute();
+//		System.out.println(rssFeedDto);
 		
 	}
 
