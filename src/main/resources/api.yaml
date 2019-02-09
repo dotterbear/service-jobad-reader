@@ -76,47 +76,49 @@ definitions:
         type: "string"
 
   JobAdList:
-    type: "object"
-    $ref: "#/definitions/BaseResponse"
-    properties:
-      jobAdItems:
-        type: array
-        items:
-          $ref: "#/definitions/JobAdItem"
+    allOf: 
+    - type: "object"
+    - $ref: "#/definitions/BaseResponse"
+    - properties:
+        jobAdItems:
+          type: array
+          items:
+            $ref: "#/definitions/JobAdItem"
 
   JobAdItem:
-    type: "object"
-    $ref: "#/definitions/BaseResponse"
-    properties:
-      id:
-        type: "string"
-      companyName:
-        type: "string"
-      title:
-        type: "string"
-      industry:
-        type: "string"
-      careerLevel:
-        type: "string"
-      qualification:
-        type: "string"
-      location:
-        type: "string"
-      employmentType:
-        type: "string"
-      others:
-        type: "string"
-      yearsOfExp:
-        type: "integer"
-      benefits:
-        type: "array"
-        items:
-           type: "string"
-      postedDate:
-        type: "string"
-        format: "date"
-      fromWebSite:
-        type: "string"
+    allOf: 
+    - type: "object"
+    - $ref: "#/definitions/BaseResponse"
+    - properties:
+        id:
+          type: "string"
+        companyName:
+          type: "string"
+        title:
+          type: "string"
+        industry:
+          type: "string"
+        careerLevel:
+          type: "string"
+        qualification:
+          type: "string"
+        location:
+          type: "string"
+        employmentType:
+          type: "string"
+        others:
+          type: "string"
+        yearsOfExp:
+          type: "integer"
+        benefits:
+          type: "array"
+          items:
+             type: "string"
+        postedDate:
+          type: "string"
+          format: "date"
+        fromWebSite:
+          type: "string"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
