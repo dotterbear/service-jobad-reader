@@ -8,19 +8,6 @@ info:
     email: "apiteam@swagger.io"
 host: "petstore.swagger.io"
 basePath: "/api/v1/"
-tags:
-- name: "pet"
-  description: "Everything about your Pets"
-  externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
-- name: "store"
-  description: "Access to Petstore orders"
-- name: "user"
-  description: "Operations about user"
-  externalDocs:
-    description: "Find out more about our store"
-    url: "http://swagger.io"
 schemes:
 - "https"
 - "http"
@@ -34,7 +21,7 @@ paths:
       description: ""
       operationId: "findJobAdById"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
       - in: "path"
         name: "id"
@@ -45,7 +32,39 @@ paths:
         200:
           description: get states ok
           schema:
-            $ref: '#/definitions/JobAdItem'
+            $ref: "#/definitions/JobAdItem"
+  
+  /jobad/list:
+    get:
+      tags:
+      - "JobAd Item"
+      summary: "get jobad in list order by amend time with limit and page size"
+      description: ""
+      operationId: "findJobAds"
+      produces: 
+      - "application/json"
+      parameters: 
+      - in: "query"
+        name: "size"
+        description: "limit size of the items, min is 1, max is 100, default is 25"
+        required: false
+        default: 25
+        type: integer
+        minimum: 1
+        maximum: 100
+      - in: "query"
+        name: "page"
+        description: "page no. of the query"
+        required: false
+        default: 1
+        type: integer
+        minimum: 1
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/JobAdList"
+    
 
 definitions:
   BaseResponse:
@@ -55,6 +74,16 @@ definitions:
         type: "string"
       message:
         type: "string"
+
+  JobAdList:
+    type: "object"
+    $ref: "#/definitions/BaseResponse"
+    properties:
+      jobAdItems:
+        type: array
+        items:
+          $ref: "#/definitions/JobAdItem"
+
   JobAdItem:
     type: "object"
     $ref: "#/definitions/BaseResponse"
@@ -64,6 +93,29 @@ definitions:
       companyName:
         type: "string"
       title:
+        type: "string"
+      industry:
+        type: "string"
+      careerLevel:
+        type: "string"
+      qualification:
+        type: "string"
+      location:
+        type: "string"
+      employmentType:
+        type: "string"
+      others:
+        type: "string"
+      yearsOfExp:
+        type: "integer"
+      benefits:
+        type: "array"
+        items:
+           type: "string"
+      postedDate:
+        type: "string"
+        format: "date"
+      fromWebSite:
         type: "string"
 externalDocs:
   description: "Find out more about Swagger"
