@@ -24,7 +24,7 @@
 		<jasypt-spring-boot-starter.version>2.1.0</jasypt-spring-boot-starter.version>
 		<spring-data-dynamodb.version>5.0.4</spring-data-dynamodb.version>
 		<commons-io.version>2.6</commons-io.version>
-		<default.package>com.dotterbear.jobad.rest</default.package>
+		<default.package>com.dotterbear.jobad</default.package>
 	</properties>
 
 	<dependencies>
@@ -43,9 +43,11 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.11.3</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-feign -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
+			<version>1.4.6.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -100,6 +102,10 @@
 			<artifactId>swagger-annotations</artifactId>
 			<version>1.5.21</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-security</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -114,6 +120,7 @@
 				<version>2.3.1</version>
 				<executions>
 					<execution>
+						<id>jobad-api</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
@@ -121,13 +128,32 @@
 							<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
 							<language>spring</language>
 							<output>${project.build.directory}/generated-sources</output>
-							<apiPackage>${default.package}.api</apiPackage>
-							<modelPackage>${default.package}.model</modelPackage>
-							<invokerPackage>${default.package}.invoker</invokerPackage>
+							<apiPackage>${default.package}.rest.api</apiPackage>
+							<modelPackage>${default.package}.rest.model</modelPackage>
+							<invokerPackage>${default.package}.rest.invoker</invokerPackage>
 							<configOptions>
 								<dateLibrary>joda</dateLibrary>
 								<interfaceOnly>true</interfaceOnly>
 								<java8>true</java8>
+							</configOptions>
+						</configuration>
+					</execution>
+					<execution>
+						<id>rss-reader-feign-client</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/rss-reader-api.json</inputSpec>
+							<language>spring</language>
+							<output>${project.build.directory}/generated-sources</output>
+							<apiPackage>${default.package}.feign.client</apiPackage>
+							<modelPackage>${default.package}.feign.model</modelPackage>
+							<invokerPackage>${default.package}.feign.invoker</invokerPackage>
+							<templateDirectory>swagger-template</templateDirectory>
+							<configOptions>
+								<library>spring-cloud</library>
+								<dateLibrary>java8</dateLibrary>
 							</configOptions>
 						</configuration>
 					</execution>
