@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import {{configPackage}}.ClientConfiguration;
 
 {{=<% %>=}}
-@FeignClient(name="${<%groupId%>.name}", path="${<%groupId%>.path}")
+@FeignClient(value="${<%groupId%>.value}", path="${<%groupId%>.path}")
 <%={{ }}=%>
 public interface {{classname}}Client extends {{classname}} {
 }
