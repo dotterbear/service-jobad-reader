@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.dotterbear.jobad.reader.data.model.JobAd;
@@ -13,6 +14,7 @@ import com.dotterbear.jobad.reader.data.repo.JobAdRepository;
 
 @SpringBootApplication
 @EnableEurekaClient
+@EnableFeignClients(basePackages = "com.dotterbear.jobad.feign.client")
 public class JobAdRecorder {
 
 	@Autowired
