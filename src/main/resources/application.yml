@@ -17,3 +17,9 @@ server:
 spring:
   application:
     name: service-jobad-reader
+com:
+  dotterbear:
+    feign:
+      rss:
+        value: service-rss-reader
+        path: /
