@@ -11,9 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dotterbear.jobad.feign.client.WebControllerApiClient;
+import com.dotterbear.jobad.feign.model.RSSFeed;
 import com.dotterbear.jobad.reader.rest.service.JobAdApiService;
 import com.dotterbear.jobad.rest.api.JobadApi;
 import com.dotterbear.jobad.rest.model.JobAdItem;
@@ -29,6 +32,9 @@ public class JobAdApiImpl implements JobadApi {
 
 	@Autowired
 	private JobAdApiService jobAdApiService;
+
+	@Autowired
+	private WebControllerApiClient webControllerApiClient;
 
 	@Override
 	public ResponseEntity<JobAdItem> findJobAdById(@ApiParam(value = "id of jobad",required=true) @PathVariable("id") String id) {
@@ -54,4 +60,11 @@ public class JobAdApiImpl implements JobadApi {
 		}
 	}
 
+	@RequestMapping(value = "/jobad/test", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<String> test() {
+		ResponseEntity<RSSFeed> response = webControllerApiClient.fetchRSSFeedUsingGET();
+		RSSFeed rssFeed = response.getBody();
+		System.out.println(rssFeed);
+		return null;
+	}
 }
