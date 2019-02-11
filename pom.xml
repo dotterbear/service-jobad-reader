@@ -24,7 +24,8 @@
 		<jasypt-spring-boot-starter.version>2.1.0</jasypt-spring-boot-starter.version>
 		<spring-data-dynamodb.version>5.0.4</spring-data-dynamodb.version>
 		<commons-io.version>2.6</commons-io.version>
-		<default.package>com.dotterbear.jobad</default.package>
+		<default.rest.package>com.dotterbear.jobad.rest</default.rest.package>
+		<default.feign.package>com.dotterbear.jobad.feign</default.feign.package>
 	</properties>
 
 	<dependencies>
@@ -102,10 +103,6 @@
 			<artifactId>swagger-annotations</artifactId>
 			<version>1.5.21</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-security</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -128,9 +125,9 @@
 							<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
 							<language>spring</language>
 							<output>${project.build.directory}/generated-sources</output>
-							<apiPackage>${default.package}.rest.api</apiPackage>
-							<modelPackage>${default.package}.rest.model</modelPackage>
-							<invokerPackage>${default.package}.rest.invoker</invokerPackage>
+							<apiPackage>${default.rest.package}.api</apiPackage>
+							<modelPackage>${default.rest.package}.model</modelPackage>
+							<invokerPackage>${default.rest.package}.invoker</invokerPackage>
 							<configOptions>
 								<dateLibrary>joda</dateLibrary>
 								<interfaceOnly>true</interfaceOnly>
@@ -147,10 +144,11 @@
 							<inputSpec>${project.basedir}/src/main/resources/rss-reader-api.json</inputSpec>
 							<language>spring</language>
 							<output>${project.build.directory}/generated-sources</output>
-							<apiPackage>${default.package}.feign.client</apiPackage>
-							<modelPackage>${default.package}.feign.model</modelPackage>
-							<invokerPackage>${default.package}.feign.invoker</invokerPackage>
+							<apiPackage>${default.feign.package}.client</apiPackage>
+							<modelPackage>${default.feign.package}.model</modelPackage>
+							<invokerPackage>${default.feign.package}.invoker</invokerPackage>
 							<templateDirectory>swagger-template</templateDirectory>
+							<groupId>com.dotterbear.feign.rss</groupId>
 							<configOptions>
 								<library>spring-cloud</library>
 								<dateLibrary>java8</dateLibrary>
