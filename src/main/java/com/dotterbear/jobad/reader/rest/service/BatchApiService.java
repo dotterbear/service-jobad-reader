@@ -39,9 +39,7 @@ public class BatchApiService {
 
 		RSSFeed rssFeed = response.getBody();
 		JobsDbHtmlReader jobsDbReader = new JobsDbHtmlReader();
-		List<JobAd> jobAds = rssFeed.getChannel().getItem().stream().map(item -> item.getLink())
-				.collect(Collectors.toList()).stream().map(link -> jobsDbReader.convertDocumentToJobAd(link))
-				.filter(Objects::nonNull).collect(Collectors.toList());
+		List<JobAd> jobAds = jobsDbReader.buildJobAds(rssFeed);
 		int size = jobAds.size();
 		int endIndex = Math.min(bulkInsertSize, size);
 		int startIndex = 0;
