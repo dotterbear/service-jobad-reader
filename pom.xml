@@ -19,14 +19,15 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
-		<spring-data.version>Hopper-SR10</spring-data.version>
+		<jsoup.version>1.11.3</jsoup.version>
+		<spring-cloud-starter-feign.version>1.4.6.RELEASE</spring-cloud-starter-feign.version>
+		<swagger-codegen.version>2.4.1</swagger-codegen.version>
+		<swagger-annotations.version>1.5.21</swagger-annotations.version>
+		<swagger-models.version>1.5.21</swagger-models.version>
 		<springfox-swagger2.version>2.9.2</springfox-swagger2.version>
 		<jasypt-spring-boot-starter.version>2.1.0</jasypt-spring-boot-starter.version>
-		<spring-data-dynamodb.version>5.0.4</spring-data-dynamodb.version>
-		<commons-io.version>2.6</commons-io.version>
-		<default.rest.package>com.dotterbear.jobad.rest</default.rest.package>
-		<default.feign.package>com.dotterbear.jobad.feign</default.feign.package>
+		<default.package.rest>com.dotterbear.jobad.rest</default.package.rest>
+		<default.package.feign>com.dotterbear.jobad.feign</default.package.feign>
 	</properties>
 
 	<dependencies>
@@ -43,13 +44,13 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.11.3</version>
+			<version>${jsoup.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-feign -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-feign</artifactId>
-			<version>1.4.6.RELEASE</version>
+			<version>${spring-cloud-starter-feign.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -61,53 +62,22 @@
 				spring-cloud-starter-netflix-eureka-client
 			</artifactId>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-codegen -->
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-codegen</artifactId>
-			<version>2.4.1</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.squareup.okhttp/okhttp -->
-		<dependency>
-			<groupId>com.squareup.okhttp</groupId>
-			<artifactId>okhttp</artifactId>
-			<version>2.7.5</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.squareup.okhttp/logging-interceptor -->
-		<dependency>
-			<groupId>com.squareup.okhttp</groupId>
-			<artifactId>logging-interceptor</artifactId>
-			<version>2.7.5</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.gsonfire/gson-fire -->
-		<dependency>
-			<groupId>io.gsonfire</groupId>
-			<artifactId>gson-fire</artifactId>
-			<version>1.8.3</version>
+			<version>${swagger-codegen.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>1.5.21</version>
+			<version>${swagger-annotations.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-models</artifactId>
-			<version>1.5.21</version>
+			<version>${swagger-models.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -140,7 +110,7 @@
 			<plugin>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-codegen-maven-plugin</artifactId>
-				<version>2.3.1</version>
+				<version>${swagger-codegen.version}</version>
 				<executions>
 					<execution>
 						<id>jobad-api</id>
@@ -151,11 +121,10 @@
 							<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
 							<language>spring</language>
 							<output>${project.build.directory}/generated-sources</output>
-							<apiPackage>${default.rest.package}.api</apiPackage>
-							<modelPackage>${default.rest.package}.model</modelPackage>
-							<invokerPackage>${default.rest.package}.invoker</invokerPackage>
+							<apiPackage>${default.package.rest}.api</apiPackage>
+							<modelPackage>${default.package.rest}.model</modelPackage>
+							<invokerPackage>${default.package.rest}.invoker</invokerPackage>
 							<configOptions>
-								<dateLibrary>joda</dateLibrary>
 								<interfaceOnly>true</interfaceOnly>
 								<java8>true</java8>
 							</configOptions>
@@ -170,11 +139,11 @@
 							<inputSpec>${project.basedir}/src/main/resources/rss-reader-api.json</inputSpec>
 							<language>spring</language>
 							<output>${project.build.directory}/generated-sources</output>
-							<apiPackage>${default.feign.package}.client</apiPackage>
-							<modelPackage>${default.feign.package}.model</modelPackage>
-							<invokerPackage>${default.feign.package}.invoker</invokerPackage>
+							<apiPackage>${default.package.feign}.client</apiPackage>
+							<modelPackage>${default.package.feign}.model</modelPackage>
+							<invokerPackage>${default.package.feign}.invoker</invokerPackage>
 							<templateDirectory>swagger-template</templateDirectory>
-							<groupId>com.dotterbear.feign.rss</groupId>
+							<groupId>com.dotterbear.feign.rss.reader</groupId>
 							<configOptions>
 								<library>spring-cloud</library>
 								<dateLibrary>java8</dateLibrary>
