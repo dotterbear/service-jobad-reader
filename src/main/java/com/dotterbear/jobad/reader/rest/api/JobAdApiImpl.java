@@ -33,9 +33,6 @@ public class JobAdApiImpl implements JobadApi {
 	@Autowired
 	private JobAdApiService jobAdApiService;
 
-	@Autowired
-	private WebControllerApiClient webControllerApiClient;
-
 	@Override
 	public ResponseEntity<JobAdItem> findJobAdById(@ApiParam(value = "id of jobad",required=true) @PathVariable("id") String id) {
 		log.debug("findJobAdById(String id), id: {}", id);
@@ -60,11 +57,4 @@ public class JobAdApiImpl implements JobadApi {
 		}
 	}
 
-	@RequestMapping(value = "/jobad/test", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<String> test() {
-		ResponseEntity<RSSFeed> response = webControllerApiClient.fetchRSSFeedUsingGET();
-		RSSFeed rssFeed = response.getBody();
-		System.out.println(rssFeed);
-		return null;
-	}
 }
