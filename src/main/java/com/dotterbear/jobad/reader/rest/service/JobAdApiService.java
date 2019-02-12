@@ -1,6 +1,6 @@
 package com.dotterbear.jobad.reader.rest.service;
 
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,7 +55,7 @@ public class JobAdApiService {
 				.others(jobAd.getOthers())
 				.yearsOfExp(jobAd.getYearsOfExp())
 				.benefits(jobAd.getBenefits().stream().collect(Collectors.toList()))
-				.postedDate(jobAd.getPostedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+				.postedDate(jobAd.getPostedDate().toInstant().atZone(ZoneOffset.ofHours(8)).toLocalDate())
 				.fromWebSite(jobAd.getFromWebSite().name());
 	}
 }
