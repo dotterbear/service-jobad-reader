@@ -23,6 +23,6 @@ spring:
 com:
   dotterbear:
     feign:
-      rss:
+      rss.reader:
         value: service-rss-reader
         path: /
