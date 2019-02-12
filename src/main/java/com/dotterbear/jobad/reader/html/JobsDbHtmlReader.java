@@ -3,20 +3,18 @@ package com.dotterbear.jobad.reader.html;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.springframework.format.datetime.DateFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.dotterbear.jobad.feign.model.RSSFeed;
@@ -26,6 +24,8 @@ import com.dotterbear.jobad.reader.html.utils.DocumentWrapper;
 
 @Component
 public class JobsDbHtmlReader implements HtmlReader {
+
+	private static final Logger log = LoggerFactory.getLogger(JobsDbHtmlReader.class);
 
 	private String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36";
 
@@ -62,11 +62,12 @@ public class JobsDbHtmlReader implements HtmlReader {
 	}
 
 	private JobAd buildJobAdModel(String url) {
+		log.debug("buildJobAdModel, url: {}", url);
 		Document document;
 		try {
 			document = fetchDocument(url);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+		} catch (IOException e) {
+			log.error("unable to fetch url: {}", url, e);
 			return null;
 		}
 
@@ -76,8 +77,7 @@ public class JobsDbHtmlReader implements HtmlReader {
 			String dateStr = documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_GENERAL_BOX, POSTED_DATE);
 			postedDate = dateFormatter.parse(dateStr);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("fail to parse postedDate, url: {}", url, e);
 		}
 		JobAd jobAd = new JobAd().setFromWebSite(WebSiteEnum.JOBSDB)
 				.setCompanyName(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_NAME))
@@ -113,6 +113,7 @@ public class JobsDbHtmlReader implements HtmlReader {
 	}
 
 	private Integer buildYearsOfExp(String str) {
+		log.debug("buildYearsOfExp, str: {}", str);
 		if (str == null)
 			return null;
 		Pattern pattern = Pattern.compile("(\\d+).*");
