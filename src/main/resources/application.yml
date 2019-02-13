@@ -11,7 +11,7 @@ mongodb:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:8761/eureka/
+      defaultZone: http://34.73.206.62:8761/eureka/
     register-with-eureka: true
     instance:
       appname: service-jobad-reader
