@@ -19,5 +19,3 @@ mvn spring-boot:run
 
 ### TODO List
 - [] make to do list
-- [] define the empty response code, readable message
-- [] add searching endpoint
