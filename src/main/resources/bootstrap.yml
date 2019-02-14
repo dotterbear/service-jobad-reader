@@ -3,6 +3,3 @@ server:
 spring:
   application:
     name: service-jobad-reader
-  cloud:
-    config:
-      uri: 127.0.0.1
