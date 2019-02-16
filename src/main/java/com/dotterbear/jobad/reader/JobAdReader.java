@@ -6,10 +6,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients(basePackages = "com.dotterbear.jobad.feign.client")
-public class JobAdRecorder {
+public class JobAdReader {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JobAdRecorder.class, args);
+		SpringApplication.run(JobAdReader.class, args);
 	}
 
 }
