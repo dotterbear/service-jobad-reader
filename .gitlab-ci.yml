@@ -9,7 +9,7 @@ build_jar:
     untracked: true
   script:
     - mvn clean compile -Djasypt.encryptor.password=$JASYPT_ENCRYTOR_PASSWORD
-    - mvn clean package -Djasypt.encryptor.password=$JASYPT_ENCRYTOR_PASSWORD sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN
+    - mvn clean package -Djasypt.encryptor.password=$JASYPT_ENCRYTOR_PASSWORD
 
 build_image:
   stage: image
