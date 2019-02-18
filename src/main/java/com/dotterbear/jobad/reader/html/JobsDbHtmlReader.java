@@ -1,3 +1,4 @@
+
 package com.dotterbear.jobad.reader.html;
 
 import java.io.IOException;
@@ -81,9 +82,11 @@ public class JobsDbHtmlReader implements HtmlReader {
 		}
 		JobAd jobAd = new JobAd().setFromWebSite(WebSiteEnum.JOBSDB)
 				.setCompanyName(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_NAME))
-				.setCompanyProfile(documentWrapper.getElementHtmlBySelector(JOB_AD_BODY, COMPANY_PROFILE))
+				.setCompanyProfile(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_PROFILE))
+				.setCompanyProfileRaw(documentWrapper.getElementHtmlBySelector(JOB_AD_BODY, COMPANY_PROFILE))
 				.setTitle(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, TITLE))
-				.setDetails(documentWrapper.getElementHtmlBySelector(JOB_AD_BODY, DETAILS))
+				.setDetails(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, DETAILS))
+				.setDetailsRaw(documentWrapper.getElementHtmlBySelector(JOB_AD_BODY, DETAILS))
 				.setCareerLevel(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_META_BOX, CAREER_LEVEL,
 						PRIMARY_META_LV))
 				.setYearsOfExp(buildYearsOfExp(
