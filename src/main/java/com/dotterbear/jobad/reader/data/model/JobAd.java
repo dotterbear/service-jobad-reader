@@ -16,9 +16,13 @@ public class JobAd {
 
 	private String companyProfile;
 
+	private String companyProfileRaw;
+
 	private String title;
 
 	private String details;
+
+	private String detailsRaw;
 
 	private String industry;
 
@@ -218,10 +222,29 @@ public class JobAd {
 		return this;
 	}
 
+	public String getCompanyProfileRaw() {
+		return companyProfileRaw;
+	}
+
+	public JobAd setCompanyProfileRaw(String companyProfileRaw) {
+		this.companyProfileRaw = companyProfileRaw;
+		return this;
+	}
+
+	public String getDetailsRaw() {
+		return detailsRaw;
+	}
+
+	public JobAd setDetailsRaw(String detailsRaw) {
+		this.detailsRaw = detailsRaw;
+		return this;
+	}
+
 	@Override
 	public String toString() {
-		return "JobAd [id=" + id + ", companyName=" + companyName + ", companyProfile=" + companyProfile + ", title="
-				+ title + ", details=" + details + ", industry=" + industry + ", careerLevel=" + careerLevel
+		return "JobAd [id=" + id + ", companyName=" + companyName + ", companyProfile=" + companyProfile
+				+ ", companyProfileRaw=" + companyProfileRaw + ", title=" + title + ", details=" + details
+				+ ", detailsRaw=" + detailsRaw + ", industry=" + industry + ", careerLevel=" + careerLevel
 				+ ", qualification=" + qualification + ", location=" + location + ", employmentType=" + employmentType
 				+ ", others=" + others + ", url=" + url + ", extRefId=" + extRefId + ", yearsOfExp=" + yearsOfExp
 				+ ", salary=" + salary + ", benefits=" + benefits + ", postedDate=" + postedDate + ", ts=" + ts
