@@ -20,3 +20,4 @@ mvn spring-boot:run
 ## TODO List
 - [] make to do list
 - [] retry
+- [] total number of items
