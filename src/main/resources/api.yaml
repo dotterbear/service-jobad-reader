@@ -31,7 +31,7 @@ paths:
         200:
           description: get states ok
           schema:
-            $ref: "#/definitions/JobAdItem"
+            $ref: "#/definitions/JobAdDetailResponse"
   
   /jobad/list:
     get:
@@ -62,7 +62,7 @@ paths:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/JobAdList"
+            $ref: "#/definitions/JobAdListResponse"
   
   /batch/update-jobads:
     get:
@@ -88,52 +88,63 @@ definitions:
       message:
         type: "string"
 
-  JobAdList:
+  JobAdListResponse:
     allOf: 
     - type: "object"
     - $ref: "#/definitions/BaseResponse"
     - properties:
+        totalPageNum:
+          type: integer
         jobAdItems:
           type: array
           items:
             $ref: "#/definitions/JobAdItem"
 
-  JobAdItem:
+  JobAdDetailResponse:
     allOf: 
     - type: "object"
     - $ref: "#/definitions/BaseResponse"
     - properties:
-        id:
-          type: "string"
-        companyName:
-          type: "string"
-        title:
-          type: "string"
-        industry:
-          type: "string"
-        careerLevel:
-          type: "string"
-        qualification:
-          type: "string"
-        location:
-          type: "string"
-        employmentType:
-          type: "string"
-        others:
-          type: "string"
-        yearsOfExp:
-          type: "integer"
-        benefits:
-          type: "array"
-          items:
-             type: "string"
-        postedDate:
-          type: "string"
-          format: "date"
-        fromWebSite:
-          type: "string"
-        url:
-          type: "string"
+        jobAdItem:
+          $ref: "#/definitions/JobAdItem"
+
+##########
+# model
+##########
+  JobAdItem:
+    properties:
+      id:
+        type: "string"
+      companyName:
+        type: "string"
+      title:
+        type: "string"
+      industry:
+        type: "string"
+      careerLevel:
+        type: "string"
+      qualification:
+        type: "string"
+      location:
+        type: "string"
+      employmentType:
+        type: "string"
+      others:
+        type: "string"
+      yearsOfExp:
+        type: "integer"
+      benefits:
+        type: "array"
+        items:
+           type: "string"
+      postedDate:
+        type: "string"
+        format: "date"
+      fromWebSite:
+        type: "string"
+      url:
+        type: "string"
+
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

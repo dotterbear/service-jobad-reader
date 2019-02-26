@@ -7,14 +7,16 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.dotterbear.jobad.reader.data.model.JobAd;
 import com.dotterbear.jobad.reader.data.service.JobAdService;
+import com.dotterbear.jobad.rest.model.JobAdDetailResponse;
 import com.dotterbear.jobad.rest.model.JobAdItem;
-import com.dotterbear.jobad.rest.model.JobAdList;
+import com.dotterbear.jobad.rest.model.JobAdListResponse;
 
 @Service
 public class JobAdApiService {
@@ -24,20 +26,24 @@ public class JobAdApiService {
 	@Autowired
 	private JobAdService jobAdService;
 
-	public ResponseEntity<JobAdItem> findJobAdById(String id) {
+	public ResponseEntity<JobAdDetailResponse> findJobAdById(String id) {
 		log.debug("findByJobAdId, id: {}", id);
 		JobAdItem jobAdItem = buildJobAdItem(jobAdService.findById(id));
-		return new ResponseEntity<JobAdItem>(jobAdItem, HttpStatus.OK);
+		JobAdDetailResponse jobAdDetailResponse = new JobAdDetailResponse()
+				.jobAdItem(jobAdItem);
+		return new ResponseEntity<JobAdDetailResponse>(jobAdDetailResponse, HttpStatus.OK);
 	}
 
-	public ResponseEntity<JobAdList> findJobAds(int size, int page) {
+	public ResponseEntity<JobAdListResponse> findJobAds(int size, int page) {
 		log.debug("findJobAds, size: {}, page: {}");
-		List<JobAdItem> jobAdItems = jobAdService.findAllOrderByTs(page, size).stream()
+		Page<JobAd> jobAds = jobAdService.findAllOrderByTs(page, size);
+		List<JobAdItem> jobAdItems = jobAds.getContent().stream()
 			.map(JobAdApiService::buildJobAdItem)
 			.collect(Collectors.toList());
-		JobAdList jobAdList = new JobAdList()
+		JobAdListResponse jobAdList = new JobAdListResponse()
+				.totalPageNum(jobAds.getTotalPages())
 				.jobAdItems(jobAdItems);
-		return new ResponseEntity<JobAdList>(jobAdList, HttpStatus.OK);
+		return new ResponseEntity<JobAdListResponse>(jobAdList, HttpStatus.OK);
 	}
 
 	private static JobAdItem buildJobAdItem(JobAd jobAd) {
