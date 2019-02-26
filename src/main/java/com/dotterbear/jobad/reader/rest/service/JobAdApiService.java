@@ -42,6 +42,7 @@ public class JobAdApiService {
 			.collect(Collectors.toList());
 		JobAdListResponse jobAdList = new JobAdListResponse()
 				.totalPageNum(jobAds.getTotalPages())
+				.totalItemNum(jobAds.getTotalElements())
 				.jobAdItems(jobAdItems);
 		return new ResponseEntity<JobAdListResponse>(jobAdList, HttpStatus.OK);
 	}

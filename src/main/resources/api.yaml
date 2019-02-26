@@ -93,6 +93,9 @@ definitions:
     - type: "object"
     - $ref: "#/definitions/BaseResponse"
     - properties:
+        totalItemNum:
+          type: integer
+          format: int64
         totalPageNum:
           type: integer
         jobAdItems:
