@@ -34,9 +34,9 @@ public class JobAdApiService {
 		return new ResponseEntity<JobAdDetailResponse>(jobAdDetailResponse, HttpStatus.OK);
 	}
 
-	public ResponseEntity<JobAdListResponse> findJobAds(int size, int page) {
-		log.debug("findJobAds, size: {}, page: {}");
-		Page<JobAd> jobAds = jobAdService.findAllOrderByTs(page, size);
+	public ResponseEntity<JobAdListResponse> findJobAds(int size, int page, String direction, String orderBy) {
+		log.debug("findJobAds, size: {}, page: {}, direction: {}, orderBy: {}", size, direction, orderBy);
+		Page<JobAd> jobAds = jobAdService.findAll(page, size, direction, orderBy);
 		List<JobAdItem> jobAdItems = jobAds.getContent().stream()
 			.map(JobAdApiService::buildJobAdItem)
 			.collect(Collectors.toList());

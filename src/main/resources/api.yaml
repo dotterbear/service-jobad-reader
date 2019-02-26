@@ -58,6 +58,24 @@ paths:
         default: 1
         type: integer
         minimum: 1
+      - in: "query"
+        name: "orderBy"
+        description: "order by fields"
+        required: false
+        type: "string"
+        enum:
+        - title
+        - ts
+        default: ts
+      - in: "query"
+        name: "direction"
+        description: "order by fields"
+        required: false
+        type: "string"
+        enum:
+        - asc
+        - desc
+        default: asc
       responses:
         200:
           description: OK

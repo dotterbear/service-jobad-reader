@@ -1,10 +1,14 @@
 package com.dotterbear.jobad.reader.data.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.dotterbear.jobad.reader.data.model.JobAd;
@@ -20,12 +24,13 @@ public class JobAdService {
 
 	public JobAd findById(String id) {
 		log.debug("findById, id: {}", id);
-		return jobAdRepository.findById(id).get();
+		Optional<JobAd> jobAd = jobAdRepository.findById(id);
+		return jobAd.isPresent() ? jobAd.get() : null;
 	}
 
-	public Page<JobAd> findAllOrderByTs(int page, int size) {
+	public Page<JobAd> findAll(int page, int size, String direction, String propertie) {
 		log.debug("findAllOrderByTs, page: {}, size: {}", page, size);
-		return jobAdRepository.findAll(PageRequest.of(page - 1, size));
+		return jobAdRepository.findAll(PageRequest.of(page - 1, size, Sort.by(direction, propertie)));
 	}
 
 }
