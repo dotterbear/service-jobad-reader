@@ -20,6 +20,7 @@
 		<java.version>1.8</java.version>
 		<jsoup.version>1.11.3</jsoup.version>
 		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+		<spring-data.version>Hopper-SR10</spring-data.version>
 		<spring-cloud-starter-feign.version>1.4.6.RELEASE</spring-cloud-starter-feign.version>
 		<swagger-codegen.version>2.4.1</swagger-codegen.version>
 		<swagger-annotations.version>1.5.21</swagger-annotations.version>

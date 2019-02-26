@@ -132,6 +132,8 @@ definitions:
           format: "date"
         fromWebSite:
           type: "string"
+        url:
+          type: "string"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

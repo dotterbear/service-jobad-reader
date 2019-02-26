@@ -56,6 +56,7 @@ public class JobAdApiService {
 				.yearsOfExp(jobAd.getYearsOfExp())
 				.benefits(jobAd.getBenefits().stream().collect(Collectors.toList()))
 				.postedDate(jobAd.getPostedDate().toInstant().atZone(ZoneOffset.ofHours(8)).toLocalDate())
-				.fromWebSite(jobAd.getFromWebSite().name());
+				.fromWebSite(jobAd.getFromWebSite().name())
+				.url(jobAd.getUrl());
 	}
 }
