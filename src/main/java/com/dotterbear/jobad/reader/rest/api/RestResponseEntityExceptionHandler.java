@@ -13,9 +13,14 @@ import com.dotterbear.jobad.rest.model.BaseResponse;
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
-	protected ResponseEntity<BaseResponse> handleConflict(RuntimeException e, WebRequest request) {
+	@ExceptionHandler(value = IllegalArgumentException.class)
+	protected ResponseEntity<BaseResponse> handleConflict(IllegalArgumentException e, WebRequest request) {
 		return new ResponseEntity<BaseResponse>(ApiUtils.buildBaseResponse(e), HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(value = Exception.class)
+	protected ResponseEntity<BaseResponse> handleInternalException(Exception e, WebRequest request) {
+		return new ResponseEntity<BaseResponse>(ApiUtils.buildBaseResponse(e), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 }

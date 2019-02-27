@@ -1,7 +1,6 @@
 package com.dotterbear.jobad.reader.rest.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,13 +16,10 @@ public class BatchApiImpl implements BatchApi {
 	@Autowired
 	private BatchApiService batchApiService;
 
+	@Override
+	@ApiEndpoint
 	public ResponseEntity<BaseResponse> updateJobAds() {
-		try {
-			return batchApiService.updateJobAds();
-		} catch (Exception e) {
-			// TODO
-			ResponseEntity<BaseResponse> response = new ResponseEntity<BaseResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
-		}
+		return batchApiService.updateJobAds();
 	}
+
 }

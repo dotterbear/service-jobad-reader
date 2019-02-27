@@ -8,9 +8,9 @@ public class ApiUtils {
 		return str == null || str.isEmpty();
 	}
 
-	public static BaseResponse buildBaseResponse(RuntimeException e) {
+	public static BaseResponse buildBaseResponse(Exception e) {
 		return new BaseResponse()
-				.code("9999")
+				.code("999")
 				.message(e.getMessage());
 	}
 }

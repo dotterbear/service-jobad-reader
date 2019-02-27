@@ -31,27 +31,23 @@ public class JobAdApiImpl implements JobadApi {
 	private JobAdApiService jobAdApiService;
 
 	@Override
-	public ResponseEntity<JobAdDetailResponse> findJobAdById(@ApiParam(value = "id of jobad",required=true) @PathVariable("id") String id) {
+	@ApiEndpoint
+	public ResponseEntity<JobAdDetailResponse> findJobAdById(
+			@ApiParam(value = "id of jobad", required = true) @PathVariable("id") String id) {
 		log.debug("findJobAdById(String id), id: {}", id);
-		try {
-			return jobAdApiService.findJobAdById(id);
-		} catch (Exception e) {
-			// TODO
-			ResponseEntity<JobAdDetailResponse> response = new ResponseEntity<JobAdDetailResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
-		}
+		return jobAdApiService.findJobAdById(id);
 	}
 
 	@Override
-	public ResponseEntity<JobAdListResponse> findJobAds(@Min(1) @Max(100) @ApiParam(value = "limit size of the items, min is 1, max is 100, default is 25", defaultValue = "25") @Valid @RequestParam(value = "size", required = false, defaultValue="25") Integer size,@Min(1)@ApiParam(value = "page no. of the query", defaultValue = "1") @Valid @RequestParam(value = "page", required = false, defaultValue="1") Integer page,@ApiParam(value = "order by fields", allowableValues = "title, ts, score", defaultValue = "ts") @Valid @RequestParam(value = "orderBy", required = false, defaultValue="ts") String orderBy,@ApiParam(value = "order by fields", allowableValues = "asc, desc", defaultValue = "asc") @Valid @RequestParam(value = "direction", required = false, defaultValue="asc") String direction,@ApiParam(value = "search by title or job details") @Valid @RequestParam(value = "query", required = false) String query) {
+	@ApiEndpoint
+	public ResponseEntity<JobAdListResponse> findJobAds(
+			@Min(1) @Max(100) @ApiParam(value = "limit size of the items, min is 1, max is 100, default is 25", defaultValue = "25") @Valid @RequestParam(value = "size", required = false, defaultValue = "25") Integer size,
+			@Min(1) @ApiParam(value = "page no. of the query", defaultValue = "1") @Valid @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+			@ApiParam(value = "order by fields", allowableValues = "title, ts, score", defaultValue = "ts") @Valid @RequestParam(value = "orderBy", required = false, defaultValue = "ts") String orderBy,
+			@ApiParam(value = "order by fields", allowableValues = "asc, desc", defaultValue = "asc") @Valid @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
+			@ApiParam(value = "search by title or job details") @Valid @RequestParam(value = "query", required = false) String query) {
 		log.debug("findJobAds, size: {}, page: {}", size, page);
-		try {
-			return jobAdApiService.findJobAds(size, page, direction, orderBy, query);
-		} catch (Exception e) {
-			// TODO
-			ResponseEntity<JobAdListResponse> response = new ResponseEntity<JobAdListResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
-		}
+		return jobAdApiService.findJobAds(size, page, direction, orderBy, query);
 	}
 
 }
