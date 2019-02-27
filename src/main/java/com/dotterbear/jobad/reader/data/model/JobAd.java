@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.TextScore;
 
 @Document(collection = "JobAd")
 public class JobAd {
@@ -51,6 +52,9 @@ public class JobAd {
 	private Date ts;
 
 	private WebSiteEnum fromWebSite;
+
+	@TextScore
+	private Float score;
 
 	public String getId() {
 		return id;
@@ -240,6 +244,15 @@ public class JobAd {
 		return this;
 	}
 
+	public Float getScore() {
+		return score;
+	}
+
+	public JobAd setScore(Float score) {
+		this.score = score;
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return "JobAd [id=" + id + ", companyName=" + companyName + ", companyProfile=" + companyProfile
@@ -248,7 +261,7 @@ public class JobAd {
 				+ ", qualification=" + qualification + ", location=" + location + ", employmentType=" + employmentType
 				+ ", others=" + others + ", url=" + url + ", extRefId=" + extRefId + ", yearsOfExp=" + yearsOfExp
 				+ ", salary=" + salary + ", benefits=" + benefits + ", postedDate=" + postedDate + ", ts=" + ts
-				+ ", fromWebSite=" + fromWebSite + "]";
+				+ ", fromWebSite=" + fromWebSite + ", score=" + score + "]";
 	}
 
 }
