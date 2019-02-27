@@ -18,8 +18,6 @@ mvn spring-boot:run
 ```
 
 ## TODO List
-[x] total number of items
-
-[] define reusable enum for error msg, request parameter
-
-[] add code mapping to response
+- [x] total number of items
+- [ ] define reusable enum for error msg, request parameter
+- [ ] add code mapping to response
