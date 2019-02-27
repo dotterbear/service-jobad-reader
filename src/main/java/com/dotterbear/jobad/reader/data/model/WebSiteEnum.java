@@ -2,10 +2,10 @@ package com.dotterbear.jobad.reader.data.model;
 
 public enum WebSiteEnum {
 
-	JOBSDB;
+  JOBSDB;
 
-	public String getName() {
-		return this.name();
-	}
+  public String getName() {
+    return this.name();
+  }
 
 }

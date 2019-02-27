@@ -4,6 +4,6 @@ import com.dotterbear.jobad.reader.data.model.JobAd;
 
 public interface CustomizedSave {
 
-	JobAd save(JobAd entity);
+  JobAd save(JobAd entity);
 
 }

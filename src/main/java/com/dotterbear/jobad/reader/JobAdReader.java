@@ -10,8 +10,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableFeignClients(basePackages = "com.dotterbear.jobad.feign.client")
 public class JobAdReader {
 
-	public static void main(String[] args) {
-		SpringApplication.run(JobAdReader.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(JobAdReader.class, args);
+  }
 
 }
