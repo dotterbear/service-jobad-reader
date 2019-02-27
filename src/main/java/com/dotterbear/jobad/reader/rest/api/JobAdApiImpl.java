@@ -43,10 +43,10 @@ public class JobAdApiImpl implements JobadApi {
 	}
 
 	@Override
-	public ResponseEntity<JobAdListResponse> findJobAds(@Min(1) @Max(100) @ApiParam(value = "limit size of the items, min is 1, max is 100, default is 25", defaultValue = "25") @Valid @RequestParam(value = "size", required = false, defaultValue="25") Integer size,@Min(1)@ApiParam(value = "page no. of the query", defaultValue = "1") @Valid @RequestParam(value = "page", required = false, defaultValue="1") Integer page,@ApiParam(value = "order by fields", allowableValues = "title, amendTime", defaultValue = "amendTime") @Valid @RequestParam(value = "orderBy", required = false, defaultValue="amendTime") String orderBy,@ApiParam(value = "order by fields", allowableValues = "asc, desc", defaultValue = "asc") @Valid @RequestParam(value = "direction", required = false, defaultValue="asc") String direction) {
+	public ResponseEntity<JobAdListResponse> findJobAds(@Min(1) @Max(100) @ApiParam(value = "limit size of the items, min is 1, max is 100, default is 25", defaultValue = "25") @Valid @RequestParam(value = "size", required = false, defaultValue="25") Integer size,@Min(1)@ApiParam(value = "page no. of the query", defaultValue = "1") @Valid @RequestParam(value = "page", required = false, defaultValue="1") Integer page,@ApiParam(value = "order by fields", allowableValues = "title, ts, score", defaultValue = "ts") @Valid @RequestParam(value = "orderBy", required = false, defaultValue="ts") String orderBy,@ApiParam(value = "order by fields", allowableValues = "asc, desc", defaultValue = "asc") @Valid @RequestParam(value = "direction", required = false, defaultValue="asc") String direction,@ApiParam(value = "search by title or job details") @Valid @RequestParam(value = "query", required = false) String query) {
 		log.debug("findJobAds, size: {}, page: {}", size, page);
 		try {
-			return jobAdApiService.findJobAds(size, page, direction, orderBy);
+			return jobAdApiService.findJobAds(size, page, direction, orderBy, query);
 		} catch (Exception e) {
 			// TODO
 			ResponseEntity<JobAdListResponse> response = new ResponseEntity<JobAdListResponse>(HttpStatus.INTERNAL_SERVER_ERROR);

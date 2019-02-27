@@ -34,10 +34,14 @@ public class JobAdApiService {
 		return new ResponseEntity<JobAdDetailResponse>(jobAdDetailResponse, HttpStatus.OK);
 	}
 
-	public ResponseEntity<JobAdListResponse> findJobAds(int size, int page, String direction, String orderBy) {
-		log.debug("findJobAds, size: {}, page: {}, direction: {}, orderBy: {}", size, direction, orderBy);
-		Page<JobAd> jobAds = jobAdService.findAll(page, size, direction, orderBy);
-		List<JobAdItem> jobAdItems = jobAds.getContent().stream()
+	public ResponseEntity<JobAdListResponse> findJobAds(int size, int page, String direction, String orderBy, String query) {
+		log.debug("findJobAds, size: {}, page: {}, direction: {}, orderBy: {}, query: {}", size, direction, orderBy, query);
+		Page<JobAd> jobAds;
+		if (query == null || query.isEmpty())
+			jobAds = jobAdService.findAll(page, size, direction, orderBy);
+		else
+			jobAds = jobAdService.searchByQuery(page, size, direction, orderBy, query);
+		List<JobAdItem> jobAdItems = jobAds.stream()
 			.map(JobAdApiService::buildJobAdItem)
 			.collect(Collectors.toList());
 		JobAdListResponse jobAdList = new JobAdListResponse()
@@ -64,6 +68,7 @@ public class JobAdApiService {
 				.benefits(jobAd.getBenefits().stream().collect(Collectors.toList()))
 				.postedDate(jobAd.getPostedDate().toInstant().atZone(ZoneOffset.ofHours(8)).toLocalDate())
 				.fromWebSite(jobAd.getFromWebSite().name())
-				.url(jobAd.getUrl());
+				.url(jobAd.getUrl())
+				.score(jobAd.getScore());
 	}
 }

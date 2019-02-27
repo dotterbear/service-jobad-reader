@@ -66,6 +66,7 @@ paths:
         enum:
         - title
         - ts
+        - score
         default: ts
       - in: "query"
         name: "direction"
@@ -76,6 +77,11 @@ paths:
         - asc
         - desc
         default: asc
+      - in: "query"
+        name: "query"
+        description: "search by title or job details"
+        required: false
+        type: "string"
       responses:
         200:
           description: OK
@@ -165,6 +171,9 @@ definitions:
         type: "string"
       url:
         type: "string"
+      score:
+        type: "number"
+        format: "float"
 
 externalDocs:
   description: "Find out more about Swagger"
