@@ -65,9 +65,9 @@ paths:
         type: "string"
         enum:
         - title
-        - ts
         - score
-        default: ts
+        - postedDate
+        default: postedDate
       - in: "query"
         name: "direction"
         description: "order by fields"

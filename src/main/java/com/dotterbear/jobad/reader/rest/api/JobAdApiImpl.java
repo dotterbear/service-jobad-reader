@@ -44,8 +44,8 @@ public class JobAdApiImpl implements JobadApi {
               defaultValue = "25") Integer size,
       @Min(1) @ApiParam(value = "page no. of the query", defaultValue = "1") @Valid @RequestParam(
           value = "page", required = false, defaultValue = "1") Integer page,
-      @ApiParam(value = "order by fields", allowableValues = "title, ts, score",
-          defaultValue = "ts") @Valid @RequestParam(value = "orderBy", required = false,
+      @ApiParam(value = "order by fields", allowableValues = "title, score, postedDate",
+          defaultValue = "postedDate") @Valid @RequestParam(value = "orderBy", required = false,
               defaultValue = "ts") String orderBy,
       @ApiParam(value = "order by fields", allowableValues = "asc, desc",
           defaultValue = "asc") @Valid @RequestParam(value = "direction", required = false,
