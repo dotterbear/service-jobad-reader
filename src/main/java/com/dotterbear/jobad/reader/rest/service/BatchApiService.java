@@ -45,7 +45,7 @@ public class BatchApiService {
       startIndex += bulkInsertSize;
       endIndex = Math.min(endIndex + bulkInsertSize, size);
     }
-    return new ResponseEntity<BaseResponse>(HttpStatus.OK);
+    return new ResponseEntity<BaseResponse>(new BaseResponse(), HttpStatus.OK);
   }
 
 }

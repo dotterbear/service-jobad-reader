@@ -46,10 +46,10 @@ public class JobAdApiImpl implements JobadApi {
           value = "page", required = false, defaultValue = "1") Integer page,
       @ApiParam(value = "order by fields", allowableValues = "title, score, postedDate",
           defaultValue = "postedDate") @Valid @RequestParam(value = "orderBy", required = false,
-              defaultValue = "ts") String orderBy,
+              defaultValue = "postedDate") String orderBy,
       @ApiParam(value = "order by fields", allowableValues = "asc, desc",
-          defaultValue = "asc") @Valid @RequestParam(value = "direction", required = false,
-              defaultValue = "asc") String direction,
+          defaultValue = "desc") @Valid @RequestParam(value = "direction", required = false,
+              defaultValue = "desc") String direction,
       @ApiParam(value = "search by title or job details") @Valid @RequestParam(value = "query",
           required = false) String query) {
     log.debug("findJobAds, size: {}, page: {}", size, page);

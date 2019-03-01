@@ -76,7 +76,7 @@ paths:
         enum:
         - asc
         - desc
-        default: asc
+        default: desc
       - in: "query"
         name: "query"
         description: "search by title or job details"
