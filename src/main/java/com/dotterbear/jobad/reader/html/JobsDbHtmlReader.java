@@ -2,11 +2,7 @@
 package com.dotterbear.jobad.reader.html;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -16,10 +12,12 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import com.dotterbear.jobad.feign.model.Item;
 import com.dotterbear.jobad.feign.model.RSSFeed;
 import com.dotterbear.jobad.reader.data.model.JobAd;
 import com.dotterbear.jobad.reader.data.model.WebSiteEnum;
 import com.dotterbear.jobad.reader.html.utils.DocumentWrapper;
+import com.dotterbear.jobad.reader.utils.DataUtils;
 
 @Component
 public class JobsDbHtmlReader implements HtmlReader {
@@ -30,8 +28,6 @@ public class JobsDbHtmlReader implements HtmlReader {
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36";
 
   private int timeout = 5000;
-
-  private static SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yy", Locale.ENGLISH);
 
   private static final String COMPANY_NAME = "jobad-header-company";
   private static final String COMPANY_PROFILE = "primary-profile-detail";
@@ -55,13 +51,13 @@ public class JobsDbHtmlReader implements HtmlReader {
 
   @Override
   public List<JobAd> buildJobAds(RSSFeed rssFeed) {
-    return rssFeed.getChannel().getItem().stream().map(item -> item.getLink())
-        .collect(Collectors.toList()).stream().map(link -> buildJobAdModel(link))
-        .filter(Objects::nonNull).collect(Collectors.toList());
+    return rssFeed.getChannel().getItem().stream().collect(Collectors.toList()).stream()
+        .map(link -> buildJobAdModel(link)).filter(Objects::nonNull).collect(Collectors.toList());
   }
 
-  private JobAd buildJobAdModel(String url) {
-    log.debug("buildJobAdModel, url: {}", url);
+  private JobAd buildJobAdModel(Item item) {
+    log.debug("buildJobAdModel, item: {}", item);
+    String url = item.getLink();
     Document document;
     try {
       document = fetchDocument(url);
@@ -71,14 +67,6 @@ public class JobsDbHtmlReader implements HtmlReader {
     }
 
     DocumentWrapper documentWrapper = new DocumentWrapper().setDocument(document);
-    Date postedDate = null;
-    try {
-      String dateStr =
-          documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_GENERAL_BOX, POSTED_DATE);
-      postedDate = dateFormatter.parse(dateStr);
-    } catch (ParseException e) {
-      log.error("fail to parse postedDate, url: {}", url, e);
-    }
     JobAd jobAd = new JobAd().setFromWebSite(WebSiteEnum.JOBSDB)
         .setCompanyName(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_NAME))
         .setCompanyProfile(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_PROFILE))
@@ -109,7 +97,7 @@ public class JobsDbHtmlReader implements HtmlReader {
             .select(documentWrapper.concatClassNamesSelector(JOB_AD_BODY, PRIMARY_META_BOX, BENEFIT)
                 + " span")
             .stream().map(element -> element.text()).collect(Collectors.toSet()))
-        .setPostedDate(postedDate)
+        .setPostedDate(DataUtils.buildDate(item.getPubDate()))
         .setExtRefId(
             Optional
                 .ofNullable(documentWrapper.getElementTextByClassNames(JOB_AD_BODY,

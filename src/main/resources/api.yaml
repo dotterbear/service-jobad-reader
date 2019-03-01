@@ -166,7 +166,7 @@ definitions:
            type: "string"
       postedDate:
         type: "string"
-        format: "date"
+        format: "date-time"
       fromWebSite:
         type: "string"
       url:
