@@ -33,14 +33,14 @@ public class JobAdApiService {
   }
 
   public ResponseEntity<JobAdListResponse> findJobAds(int size, int page, String direction,
-      String orderBy, String query) {
-    log.debug("findJobAds, size: {}, page: {}, direction: {}, orderBy: {}, query: {}", size,
-        direction, orderBy, query);
+      String orderBy, String query, String companyName) {
+    log.debug("findJobAds, size: {}, page: {}, direction: {}, orderBy: {}, query: {}, companyName: {}", size,
+        direction, orderBy, query, companyName);
     Page<JobAd> jobAds;
-    if (ApiUtils.isEmptyString(query))
+    if (ApiUtils.isEmptyString(query) && ApiUtils.isEmptyString(companyName))
       jobAds = jobAdService.findAll(page, size, direction, orderBy);
     else
-      jobAds = jobAdService.searchByQuery(page, size, direction, orderBy, query);
+      jobAds = jobAdService.searchByQuery(page, size, direction, orderBy, query, companyName);
     List<JobAdItem> jobAdItems =
         jobAds.stream().map(JobAdApiService::buildJobAdItem).collect(Collectors.toList());
     JobAdListResponse jobAdList = new JobAdListResponse().totalPageNum(jobAds.getTotalPages())

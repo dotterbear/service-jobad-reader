@@ -79,8 +79,12 @@ paths:
         default: desc
       - in: "query"
         name: "query"
-        description: "search by title or job details"
+        description: "search in title or job details"
         required: false
+        type: "string"
+      - in: "query"
+        name: "company-name"
+        description: "search by company name, full match"
         type: "string"
       responses:
         200:

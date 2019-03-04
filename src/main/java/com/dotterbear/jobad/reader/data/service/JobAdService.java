@@ -12,12 +12,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
-import org.springframework.data.mongodb.core.query.TextQuery;
 import org.springframework.stereotype.Service;
 import com.dotterbear.jobad.reader.data.model.JobAd;
 import com.dotterbear.jobad.reader.data.repo.JobAdRepository;
+import com.dotterbear.jobad.reader.rest.api.utils.ApiUtils;
 
 @Service
 public class JobAdService {
@@ -44,12 +45,15 @@ public class JobAdService {
   }
 
   public Page<JobAd> searchByQuery(int page, int size, String direction, String orderBy,
-      String query) {
-    log.debug("findAllOrderByTs, page: {}, size: {}, direction: {}, orderby: {}, query: {}", page,
-        size, direction, orderBy, query);
+      String query, String companyName) {
+    log.debug("findAllOrderByTs, page: {}, size: {}, direction: {}, orderby: {}, query: {}, companyName: {}", page,
+        size, direction, orderBy, query, companyName);
     Pageable pagable = PageRequest.of(page - 1, size, Sort.by(direction, orderBy));
-    Query dbQuery =
-        TextQuery.queryText(TextCriteria.forDefaultLanguage().matchingAny(query)).with(pagable);
+    Query dbQuery = new Query().with(pagable);
+    if (!ApiUtils.isEmptyString(query))
+      dbQuery.addCriteria(TextCriteria.forDefaultLanguage().matchingAny(query));
+    if (!ApiUtils.isEmptyString(companyName))
+      dbQuery.addCriteria(Criteria.where("companyName").is(companyName));
     long count = mongoTemplate.count(dbQuery, JobAd.class);
     List<JobAd> jobAds = mongoTemplate.find(dbQuery, JobAd.class);
     return new PageImpl<JobAd>(jobAds, pagable, count);
