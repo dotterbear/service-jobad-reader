@@ -67,8 +67,10 @@ public class JobsDbHtmlReader implements HtmlReader {
     }
 
     DocumentWrapper documentWrapper = new DocumentWrapper().setDocument(document);
-    JobAd jobAd = new JobAd().setFromWebSite(WebSiteEnum.JOBSDB)
-        .setCompanyName(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_NAME))
+    String companyName = documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_NAME);
+    JobAd jobAd = new JobAd().setFromWebSite(WebSiteEnum.JOBSDB).setCompanyNameRaw(companyName)
+        .setCompanyName(
+            Optional.ofNullable(companyName).map(str -> str.toLowerCase()).orElse(null))
         .setCompanyProfile(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_PROFILE))
         .setCompanyProfileRaw(
             documentWrapper.getElementHtmlBySelector(JOB_AD_BODY, COMPANY_PROFILE))

@@ -14,6 +14,8 @@ public class JobAd {
 
   private String companyName;
 
+  private String companyNameRaw;
+
   private String companyProfile;
 
   private String companyProfileRaw;
@@ -69,6 +71,15 @@ public class JobAd {
 
   public JobAd setCompanyName(String companyName) {
     this.companyName = companyName;
+    return this;
+  }
+
+  public String getCompanyNameRaw() {
+    return companyNameRaw;
+  }
+
+  public JobAd setCompanyNameRaw(String companyNameRaw) {
+    this.companyNameRaw = companyNameRaw;
     return this;
   }
 
@@ -254,14 +265,14 @@ public class JobAd {
 
   @Override
   public String toString() {
-    return "JobAd [id=" + id + ", companyName=" + companyName + ", companyProfile=" + companyProfile
-        + ", companyProfileRaw=" + companyProfileRaw + ", title=" + title + ", details=" + details
-        + ", detailsRaw=" + detailsRaw + ", industry=" + industry + ", careerLevel=" + careerLevel
-        + ", qualification=" + qualification + ", location=" + location + ", employmentType="
-        + employmentType + ", others=" + others + ", url=" + url + ", extRefId=" + extRefId
-        + ", yearsOfExp=" + yearsOfExp + ", salary=" + salary + ", benefits=" + benefits
-        + ", postedDate=" + postedDate + ", ts=" + ts + ", fromWebSite=" + fromWebSite + ", score="
-        + score + "]";
+    return "JobAd [id=" + id + ", companyName=" + companyName + ", companyNameRaw=" + companyNameRaw
+        + ", companyProfile=" + companyProfile + ", companyProfileRaw=" + companyProfileRaw
+        + ", title=" + title + ", details=" + details + ", detailsRaw=" + detailsRaw + ", industry="
+        + industry + ", careerLevel=" + careerLevel + ", qualification=" + qualification
+        + ", location=" + location + ", employmentType=" + employmentType + ", others=" + others
+        + ", url=" + url + ", extRefId=" + extRefId + ", yearsOfExp=" + yearsOfExp + ", salary="
+        + salary + ", benefits=" + benefits + ", postedDate=" + postedDate + ", ts=" + ts
+        + ", fromWebSite=" + fromWebSite + ", score=" + score + "]";
   }
 
 }
