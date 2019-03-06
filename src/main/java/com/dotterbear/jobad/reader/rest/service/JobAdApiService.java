@@ -13,6 +13,7 @@ import com.dotterbear.jobad.reader.data.model.JobAd;
 import com.dotterbear.jobad.reader.data.service.JobAdService;
 import com.dotterbear.jobad.reader.rest.api.utils.ApiUtils;
 import com.dotterbear.jobad.reader.utils.DataUtils;
+import com.dotterbear.jobad.rest.model.CompanyNameListResponse;
 import com.dotterbear.jobad.rest.model.JobAdDetailResponse;
 import com.dotterbear.jobad.rest.model.JobAdItem;
 import com.dotterbear.jobad.rest.model.JobAdListResponse;
@@ -48,9 +49,11 @@ public class JobAdApiService {
     return new ResponseEntity<JobAdListResponse>(jobAdList, HttpStatus.OK);
   }
 
-  public ResponseEntity<List<String>> getCompanyNameList() {
+  public ResponseEntity<CompanyNameListResponse> getCompanyNameList() {
     List<String> companyNames = jobAdService.findDistinctCompanyNames();
-    return new ResponseEntity<List<String>> (companyNames, HttpStatus.OK);
+    CompanyNameListResponse companyNameListResponse = new CompanyNameListResponse()
+        .companyNames(companyNames);
+    return new ResponseEntity<CompanyNameListResponse> (companyNameListResponse, HttpStatus.OK);
   }
 
   private static JobAdItem buildJobAdItem(JobAd jobAd) {

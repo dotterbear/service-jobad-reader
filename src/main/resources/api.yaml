@@ -105,9 +105,7 @@ paths:
         200:
           description: OK
           schema:
-            type: array
-            items:
-              type: string
+            $ref: "#/definitions/CompanyNameListResponse"
 
   /batch/update-jobads:
     get:
@@ -155,6 +153,16 @@ definitions:
     - properties:
         jobAdItem:
           $ref: "#/definitions/JobAdItem"
+
+  CompanyNameListResponse:
+    allOf:
+    - type: "object"
+    - $ref: "#/definitions/BaseResponse"
+    - properties:
+        companyNames:
+          type: array
+          items:
+            type: string
 
 ##########
 # model

@@ -1,6 +1,5 @@
 package com.dotterbear.jobad.reader.rest.api;
 
-import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.dotterbear.jobad.reader.rest.service.JobAdApiService;
 import com.dotterbear.jobad.rest.api.JobadApi;
+import com.dotterbear.jobad.rest.model.CompanyNameListResponse;
 import com.dotterbear.jobad.rest.model.JobAdDetailResponse;
 import com.dotterbear.jobad.rest.model.JobAdListResponse;
 import io.swagger.annotations.ApiParam;
@@ -60,7 +60,7 @@ public class JobAdApiImpl implements JobadApi {
 
   @Override
   @ApiEndpoint
-  public ResponseEntity<List<String>> getCompanyNameList() {
+  public ResponseEntity<CompanyNameListResponse> getCompanyNameList() {
     return jobAdApiService.getCompanyNameList();
   }
 
