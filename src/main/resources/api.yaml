@@ -91,7 +91,24 @@ paths:
           description: OK
           schema:
             $ref: "#/definitions/JobAdListResponse"
-  
+
+  /jobad/company-name-list:
+    get:
+      tags:
+      - "JobAd"
+      summary: "get distinct company names list"
+      description: ""
+      operationId: getCompanyNameList
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: string
+
   /batch/update-jobads:
     get:
       tags: 

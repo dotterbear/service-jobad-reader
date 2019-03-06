@@ -1,12 +1,12 @@
 package com.dotterbear.jobad.reader.rest.api;
 
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +56,12 @@ public class JobAdApiImpl implements JobadApi {
           value = "company-name", required = false) String companyName) {
     log.debug("findJobAds, size: {}, page: {}", size, page);
     return jobAdApiService.findJobAds(size, page, direction, orderBy, query, companyName);
+  }
+
+  @Override
+  @ApiEndpoint
+  public ResponseEntity<List<String>> getCompanyNameList() {
+    return jobAdApiService.getCompanyNameList();
   }
 
 }

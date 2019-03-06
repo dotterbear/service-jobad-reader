@@ -48,6 +48,11 @@ public class JobAdApiService {
     return new ResponseEntity<JobAdListResponse>(jobAdList, HttpStatus.OK);
   }
 
+  public ResponseEntity<List<String>> getCompanyNameList() {
+    List<String> companyNames = jobAdService.findDistinctCompanyNames();
+    return new ResponseEntity<List<String>> (companyNames, HttpStatus.OK);
+  }
+
   private static JobAdItem buildJobAdItem(JobAd jobAd) {
     if (jobAd == null)
       return null;
@@ -67,4 +72,5 @@ public class JobAdApiService {
         .fromWebSite(jobAd.getFromWebSite().name())
         .url(jobAd.getUrl()).score(jobAd.getScore());
   }
+
 }

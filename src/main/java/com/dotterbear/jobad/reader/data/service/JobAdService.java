@@ -59,6 +59,10 @@ public class JobAdService {
     return new PageImpl<JobAd>(jobAds, pagable, count);
   }
 
+  public List<String> findDistinctCompanyNames() {
+    return mongoTemplate.query(JobAd.class).distinct("companyName").as(String.class).all();
+  }
+
   private Direction buildSortDirection(String direction) {
     return direction.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
   }
