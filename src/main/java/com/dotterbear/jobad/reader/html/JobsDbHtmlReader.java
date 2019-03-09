@@ -2,6 +2,7 @@
 package com.dotterbear.jobad.reader.html;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -68,9 +69,12 @@ public class JobsDbHtmlReader implements HtmlReader {
 
     DocumentWrapper documentWrapper = new DocumentWrapper().setDocument(document);
     String companyName = documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_NAME);
+    String employmentType = documentWrapper.getElementTextByClassNames(JOB_AD_BODY,
+        PRIMARY_META_BOX, EMPLOYMENT_TYPE, PRIMARY_META_LV);
+    String location = documentWrapper.getElementTextBySelector(
+        documentWrapper.concatClassNamesSelector(JOB_AD_BODY, PRIMARY_META_BOX, LOCATION) + " a");
     JobAd jobAd = new JobAd().setFromWebSite(WebSiteEnum.JOBSDB).setCompanyNameRaw(companyName)
-        .setCompanyName(
-            Optional.ofNullable(companyName).map(str -> str.toLowerCase()).orElse(null))
+        .setCompanyName(Optional.ofNullable(companyName).map(str -> str.toLowerCase()).orElse(null))
         .setCompanyProfile(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_PROFILE))
         .setCompanyProfileRaw(
             documentWrapper.getElementHtmlBySelector(JOB_AD_BODY, COMPANY_PROFILE))
@@ -86,13 +90,10 @@ public class JobsDbHtmlReader implements HtmlReader {
         .setIndustry(documentWrapper.getElementTextBySelector(
             documentWrapper.concatClassNamesSelector(JOB_AD_BODY, PRIMARY_META_BOX, INDUSTRY)
                 + " a"))
-        .setLocation(documentWrapper.getElementTextBySelector(
-            documentWrapper.concatClassNamesSelector(JOB_AD_BODY, PRIMARY_META_BOX, LOCATION)
-                + " a"))
+        .setLocation(location)
         // TODO review how to store salary
         // .setSalary(salary)
-        .setEmploymentType(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_META_BOX,
-            EMPLOYMENT_TYPE, PRIMARY_META_LV))
+        .setEmploymentType(employmentType)
         .setOthers(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_META_BOX, OTHERS,
             PRIMARY_META_LV))
         .setBenefits(documentWrapper.getDocument()
@@ -105,7 +106,11 @@ public class JobsDbHtmlReader implements HtmlReader {
                 .ofNullable(documentWrapper.getElementTextByClassNames(JOB_AD_BODY,
                     PRIMARY_GENERAL_BOX, JOBSDB_REF))
                 .map(txt -> txt.replace("jobsDB Ref.", "").trim()).orElse(null))
-        .setUrl(url);
+        .setUrl(url)
+        .addTag(DataUtils.toTag(location))
+        .addTags(Arrays.stream(employmentType.split(","))
+            .map(DataUtils::toTag)
+            .collect(Collectors.toSet()));
     return jobAd;
   }
 

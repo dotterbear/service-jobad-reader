@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.dotterbear.jobad.reader.data.model.JobAd;
 import com.dotterbear.jobad.reader.data.service.JobAdService;
-import com.dotterbear.jobad.reader.rest.api.utils.ApiUtils;
 import com.dotterbear.jobad.reader.utils.DataUtils;
 import com.dotterbear.jobad.rest.model.CompanyNameListResponse;
 import com.dotterbear.jobad.rest.model.JobAdDetailResponse;
@@ -38,7 +37,7 @@ public class JobAdApiService {
     log.debug("findJobAds, size: {}, page: {}, direction: {}, orderBy: {}, query: {}, companyName: {}", size,
         direction, orderBy, query, companyName);
     Page<JobAd> jobAds;
-    if (ApiUtils.isEmptyString(query) && ApiUtils.isEmptyString(companyName))
+    if (DataUtils.isEmptyString(query) && DataUtils.isEmptyString(companyName))
       jobAds = jobAdService.findAll(page, size, direction, orderBy);
     else
       jobAds = jobAdService.searchByQuery(page, size, direction, orderBy, query, companyName);

@@ -18,7 +18,7 @@ import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 import com.dotterbear.jobad.reader.data.model.JobAd;
 import com.dotterbear.jobad.reader.data.repo.JobAdRepository;
-import com.dotterbear.jobad.reader.rest.api.utils.ApiUtils;
+import com.dotterbear.jobad.reader.utils.DataUtils;
 
 @Service
 public class JobAdService {
@@ -50,9 +50,9 @@ public class JobAdService {
         size, direction, orderBy, query, companyName);
     Pageable pagable = PageRequest.of(page - 1, size, Sort.by(direction, orderBy));
     Query dbQuery = new Query().with(pagable);
-    if (!ApiUtils.isEmptyString(query))
+    if (!DataUtils.isEmptyString(query))
       dbQuery.addCriteria(TextCriteria.forDefaultLanguage().matchingAny(query));
-    if (!ApiUtils.isEmptyString(companyName))
+    if (!DataUtils.isEmptyString(companyName))
       dbQuery.addCriteria(Criteria.where("companyName").is(companyName));
     long count = mongoTemplate.count(dbQuery, JobAd.class);
     List<JobAd> jobAds = mongoTemplate.find(dbQuery, JobAd.class);

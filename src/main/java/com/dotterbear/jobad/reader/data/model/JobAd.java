@@ -1,6 +1,8 @@
 package com.dotterbear.jobad.reader.data.model;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -53,6 +55,8 @@ public class JobAd {
   private Date ts;
 
   private WebSiteEnum fromWebSite;
+
+  private Set<String> tags;
 
   @TextScore
   private Float score;
@@ -263,6 +267,35 @@ public class JobAd {
     return this;
   }
 
+  public Set<String> getTags() {
+    return tags;
+  }
+
+  public void setTags(Set<String> tags) {
+    this.tags = tags;
+  }
+
+  public JobAd addTag(String tag) {
+    if (tag == null)
+      return this;
+    initTags();
+    tags.add(tag);
+    return this;
+  }
+
+  public JobAd addTags(Collection<String> tags) {
+    if (tags == null)
+      return this;
+    initTags();
+    tags.addAll(tags);
+    return this;
+  }
+
+  private void initTags() {
+    if (tags == null)
+      tags = new HashSet<String>();
+  }
+
   @Override
   public String toString() {
     return "JobAd [id=" + id + ", companyName=" + companyName + ", companyNameRaw=" + companyNameRaw
@@ -272,7 +305,7 @@ public class JobAd {
         + ", location=" + location + ", employmentType=" + employmentType + ", others=" + others
         + ", url=" + url + ", extRefId=" + extRefId + ", yearsOfExp=" + yearsOfExp + ", salary="
         + salary + ", benefits=" + benefits + ", postedDate=" + postedDate + ", ts=" + ts
-        + ", fromWebSite=" + fromWebSite + ", score=" + score + "]";
+        + ", fromWebSite=" + fromWebSite + ", tags=" + tags + ", score=" + score + "]";
   }
 
 }
