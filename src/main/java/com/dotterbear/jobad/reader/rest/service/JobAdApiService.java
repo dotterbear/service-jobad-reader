@@ -37,10 +37,10 @@ public class JobAdApiService {
     log.debug("findJobAds, size: {}, page: {}, direction: {}, orderBy: {}, query: {}, companyName: {}, tags: {}", size,
         direction, orderBy, query, companyName, tags);
     Page<JobAd> jobAds;
-    if (DataUtils.isEmpty(query) && DataUtils.isEmpty(companyName))
+    if (DataUtils.isEmpty(query) && DataUtils.isEmpty(companyName) && DataUtils.isEmpty(tags))
       jobAds = jobAdService.findAll(page, size, direction, orderBy);
     else
-      jobAds = jobAdService.searchByQuery(page, size, direction, orderBy, query, companyName);
+      jobAds = jobAdService.searchByQuery(page, size, direction, orderBy, query, companyName, tags);
     List<JobAdItem> jobAdItems =
         jobAds.stream().map(JobAdApiService::buildJobAdItem).collect(Collectors.toList());
     JobAdListResponse jobAdList = new JobAdListResponse().totalPageNum(jobAds.getTotalPages())
