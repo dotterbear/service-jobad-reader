@@ -25,4 +25,10 @@ public class DataUtils {
     return new Date(offsetDatetime.toInstant().toEpochMilli());
   }
 
+  public static String toLowerCaseAndTrim(String str) {
+    if (isEmpty(str))
+      return null;
+    return str.toLowerCase().trim();
+  }
+
 }

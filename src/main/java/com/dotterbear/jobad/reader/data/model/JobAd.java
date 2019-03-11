@@ -26,6 +26,8 @@ public class JobAd {
 
   private String title;
 
+  private String titleRaw;
+
   private String details;
 
   private String detailsRaw;
@@ -108,6 +110,15 @@ public class JobAd {
 
   public JobAd setTitle(String title) {
     this.title = title;
+    return this;
+  }
+
+  public String getTitleRaw() {
+    return titleRaw;
+  }
+
+  public JobAd setTitleRaw(String titleRaw) {
+    this.titleRaw = titleRaw;
     return this;
   }
 
@@ -284,32 +295,29 @@ public class JobAd {
   public JobAd addTags(String tag) {
     if (DataUtils.isEmpty(tag))
       return this;
-    tags.add(buildTag(tag));
+    tags.add(DataUtils.toLowerCaseAndTrim(tag));
     return this;
   }
 
   public JobAd addTags(Collection<String> tags) {
     if (DataUtils.isEmpty(tags))
       return this;
-    this.tags.addAll(tags.stream().filter(DataUtils::isEmpty).map(tag -> buildTag(tag))
+    this.tags.addAll(tags.stream().filter(DataUtils::isEmpty).map(DataUtils::toLowerCaseAndTrim)
         .collect(Collectors.toSet()));
     return this;
-  }
-
-  private String buildTag(String str) {
-    return str.toLowerCase().trim();
   }
 
   @Override
   public String toString() {
     return "JobAd [id=" + id + ", companyName=" + companyName + ", companyNameRaw=" + companyNameRaw
         + ", companyProfile=" + companyProfile + ", companyProfileRaw=" + companyProfileRaw
-        + ", title=" + title + ", details=" + details + ", detailsRaw=" + detailsRaw + ", industry="
-        + industry + ", careerLevel=" + careerLevel + ", qualification=" + qualification
-        + ", location=" + location + ", employmentType=" + employmentType + ", others=" + others
-        + ", url=" + url + ", extRefId=" + extRefId + ", yearsOfExp=" + yearsOfExp + ", salary="
-        + salary + ", benefits=" + benefits + ", postedDate=" + postedDate + ", ts=" + ts
-        + ", fromWebSite=" + fromWebSite + ", tags=" + tags + ", score=" + score + "]";
+        + ", title=" + title + ", titleRaw=" + titleRaw + ", details=" + details + ", detailsRaw="
+        + detailsRaw + ", industry=" + industry + ", careerLevel=" + careerLevel
+        + ", qualification=" + qualification + ", location=" + location + ", employmentType="
+        + employmentType + ", others=" + others + ", url=" + url + ", extRefId=" + extRefId
+        + ", yearsOfExp=" + yearsOfExp + ", salary=" + salary + ", benefits=" + benefits
+        + ", postedDate=" + postedDate + ", ts=" + ts + ", fromWebSite=" + fromWebSite + ", tags="
+        + tags + ", score=" + score + "]";
   }
 
 }
