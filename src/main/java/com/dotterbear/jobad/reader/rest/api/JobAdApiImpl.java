@@ -56,9 +56,13 @@ public class JobAdApiImpl implements JobadApi {
       @ApiParam(value = "search by company name, full match") @Valid @RequestParam(
           value = "company-name", required = false) String companyName,
       @ApiParam(value = "search by tags, using or case of the passed list") @Valid @RequestParam(
-          value = "tags", required = false) List<String> tags) {
-    log.debug("findJobAds, size: {}, page: {}", size, page);
-    return jobAdApiService.findJobAds(size, page, direction, orderBy, query, companyName, tags);
+          value = "tags", required = false) List<String> tags,
+      @ApiParam(value = "search by job title, full match") @Valid @RequestParam(value = "title",
+          required = false) String title) {
+    log.debug(
+        "findJobAds, size: {}, page: {}, direction: {}, orderBy: {}, query: {}, companyName: {}, tags: {}, title: {}",
+        size, page, direction, orderBy, query, companyName, tags, title);
+    return jobAdApiService.findJobAds(size, page, direction, orderBy, query, companyName, tags, title);
   }
 
   @Override

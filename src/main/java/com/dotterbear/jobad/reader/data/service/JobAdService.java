@@ -45,17 +45,20 @@ public class JobAdService {
   }
 
   public Page<JobAd> searchByQuery(int page, int size, String direction, String orderBy,
-      String query, String companyName, List<String> tags) {
-    log.debug("findAllOrderByTs, page: {}, size: {}, direction: {}, orderby: {}, query: {}, companyName: {}, tags", page,
-        size, direction, orderBy, query, companyName, tags);
+      String query, String companyName, List<String> tags, String title) {
+    log.debug("findAllOrderByTs, page: {}, size: {}, direction: {}, orderby: {}, query: {}, companyName: {}, tags: {}, title: {}", page,
+        size, direction, orderBy, query, companyName, tags, title);
     Pageable pagable = PageRequest.of(page - 1, size, Sort.by(direction, orderBy));
     Query dbQuery = new Query().with(pagable);
+    // TODO make a builder ?
     if (!DataUtils.isEmpty(query))
       dbQuery.addCriteria(TextCriteria.forDefaultLanguage().matchingAny(query));
     if (!DataUtils.isEmpty(companyName))
       dbQuery.addCriteria(Criteria.where("companyName").is(companyName));
     if (!DataUtils.isEmpty(tags))
       dbQuery.addCriteria(Criteria.where("tags").in(tags));
+    if (!DataUtils.isEmpty(title))
+      dbQuery.addCriteria(Criteria.where("title").in(tags));
     long count = mongoTemplate.count(dbQuery, JobAd.class);
     List<JobAd> jobAds = mongoTemplate.find(dbQuery, JobAd.class);
     return new PageImpl<JobAd>(jobAds, pagable, count);
