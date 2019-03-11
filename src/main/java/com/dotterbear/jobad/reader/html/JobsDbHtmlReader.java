@@ -69,16 +69,20 @@ public class JobsDbHtmlReader implements HtmlReader {
 
     DocumentWrapper documentWrapper = new DocumentWrapper().setDocument(document);
     String companyName = documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_NAME);
+    String title = documentWrapper.getElementTextByClassNames(JOB_AD_BODY, TITLE);
     String employmentType = documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_META_BOX, EMPLOYMENT_TYPE, PRIMARY_META_LV);
     String location = documentWrapper.getElementTextBySelector(documentWrapper.concatClassNamesSelector(JOB_AD_BODY, PRIMARY_META_BOX, LOCATION) + " " + A_TAG);
     String careerLevel = documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_META_BOX, CAREER_LEVEL, PRIMARY_META_LV);
     String industry = documentWrapper.getElementTextBySelector(documentWrapper.concatClassNamesSelector(JOB_AD_BODY, PRIMARY_META_BOX, INDUSTRY) + " " + A_TAG);
-    JobAd jobAd = new JobAd().setFromWebSite(WebSiteEnum.JOBSDB).setCompanyNameRaw(companyName)
-        .setCompanyName(Optional.ofNullable(companyName).map(str -> str.toLowerCase()).orElse(null))
+    JobAd jobAd = new JobAd()
+        .setFromWebSite(WebSiteEnum.JOBSDB)
+        .setCompanyName(companyName)
+        .setCompanyName(Optional.ofNullable(companyName)
+            .map(str -> str.toLowerCase().trim())
+            .orElse(null))
         .setCompanyProfile(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_PROFILE))
-        .setCompanyProfileRaw(
-            documentWrapper.getElementHtmlBySelector(JOB_AD_BODY, COMPANY_PROFILE))
-        .setTitle(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, TITLE))
+        .setCompanyProfileRaw(documentWrapper.getElementHtmlBySelector(JOB_AD_BODY, COMPANY_PROFILE))
+        .setTitle(title)
         .setDetails(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, DETAILS))
         .setDetailsRaw(documentWrapper.getElementHtmlBySelector(JOB_AD_BODY, DETAILS))
         .setCareerLevel(careerLevel)
@@ -104,6 +108,8 @@ public class JobsDbHtmlReader implements HtmlReader {
                     PRIMARY_GENERAL_BOX, JOBSDB_REF))
                 .map(txt -> txt.replace("jobsDB Ref.", "").trim()).orElse(null))
         .setUrl(url)
+        .addTags(title)
+        .addTags(companyName)
         .addTags(location)
         .addTags(careerLevel)
         .addTags(industry);
