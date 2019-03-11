@@ -183,8 +183,6 @@ definitions:
         type: "string"
       companyName:
         type: "string"
-      companyNameRaw:
-        type: "string"
       companyProfile:
         type: "string"
       companyProfileRaw:
