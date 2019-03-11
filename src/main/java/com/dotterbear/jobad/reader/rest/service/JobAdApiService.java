@@ -33,9 +33,9 @@ public class JobAdApiService {
   }
 
   public ResponseEntity<JobAdListResponse> findJobAds(int size, int page, String direction,
-      String orderBy, String query, String companyName) {
-    log.debug("findJobAds, size: {}, page: {}, direction: {}, orderBy: {}, query: {}, companyName: {}", size,
-        direction, orderBy, query, companyName);
+      String orderBy, String query, String companyName, List<String> tags) {
+    log.debug("findJobAds, size: {}, page: {}, direction: {}, orderBy: {}, query: {}, companyName: {}, tags: {}", size,
+        direction, orderBy, query, companyName, tags);
     Page<JobAd> jobAds;
     if (DataUtils.isEmpty(query) && DataUtils.isEmpty(companyName))
       jobAds = jobAdService.findAll(page, size, direction, orderBy);

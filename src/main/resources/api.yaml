@@ -86,6 +86,12 @@ paths:
         name: "company-name"
         description: "search by company name, full match"
         type: "string"
+      - in: "query"
+        name: "tags"
+        description: "search by tags, using or case of the passed list"
+        type: "array"
+        items:
+          type: "string"
       responses:
         200:
           description: OK

@@ -1,5 +1,6 @@
 package com.dotterbear.jobad.reader.rest.api;
 
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -53,9 +54,11 @@ public class JobAdApiImpl implements JobadApi {
       @ApiParam(value = "search in title or job details") @Valid @RequestParam(value = "query",
           required = false) String query,
       @ApiParam(value = "search by company name, full match") @Valid @RequestParam(
-          value = "company-name", required = false) String companyName) {
+          value = "company-name", required = false) String companyName,
+      @ApiParam(value = "search by tags, using or case of the passed list") @Valid @RequestParam(
+          value = "tags", required = false) List<String> tags) {
     log.debug("findJobAds, size: {}, page: {}", size, page);
-    return jobAdApiService.findJobAds(size, page, direction, orderBy, query, companyName);
+    return jobAdApiService.findJobAds(size, page, direction, orderBy, query, companyName, tags);
   }
 
   @Override
