@@ -24,7 +24,7 @@ public class ApiValidationAspect {
     String direction = (String) args[3];
     String query = (String) args[4];
     if ("score".equals(orderBy)) {
-      if (DataUtils.isEmptyString(query))
+      if (DataUtils.isEmpty(query))
         throw new IllegalArgumentException("unable to order by score with query string");
       else if ("desc".equals(direction))
         throw new IllegalArgumentException("unable to order by score in descending order");

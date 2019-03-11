@@ -37,7 +37,7 @@ public class JobAdApiService {
     log.debug("findJobAds, size: {}, page: {}, direction: {}, orderBy: {}, query: {}, companyName: {}", size,
         direction, orderBy, query, companyName);
     Page<JobAd> jobAds;
-    if (DataUtils.isEmptyString(query) && DataUtils.isEmptyString(companyName))
+    if (DataUtils.isEmpty(query) && DataUtils.isEmpty(companyName))
       jobAds = jobAdService.findAll(page, size, direction, orderBy);
     else
       jobAds = jobAdService.searchByQuery(page, size, direction, orderBy, query, companyName);

@@ -69,10 +69,10 @@ public class JobsDbHtmlReader implements HtmlReader {
 
     DocumentWrapper documentWrapper = new DocumentWrapper().setDocument(document);
     String companyName = documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_NAME);
-    String employmentType = documentWrapper.getElementTextByClassNames(JOB_AD_BODY,
-        PRIMARY_META_BOX, EMPLOYMENT_TYPE, PRIMARY_META_LV);
-    String location = documentWrapper.getElementTextBySelector(
-        documentWrapper.concatClassNamesSelector(JOB_AD_BODY, PRIMARY_META_BOX, LOCATION) + " a");
+    String employmentType = documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_META_BOX, EMPLOYMENT_TYPE, PRIMARY_META_LV);
+    String location = documentWrapper.getElementTextBySelector(documentWrapper.concatClassNamesSelector(JOB_AD_BODY, PRIMARY_META_BOX, LOCATION) + " " + A_TAG);
+    String careerLevel = documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_META_BOX, CAREER_LEVEL, PRIMARY_META_LV);
+    String industry = documentWrapper.getElementTextBySelector(documentWrapper.concatClassNamesSelector(JOB_AD_BODY, PRIMARY_META_BOX, INDUSTRY) + " " + A_TAG);
     JobAd jobAd = new JobAd().setFromWebSite(WebSiteEnum.JOBSDB).setCompanyNameRaw(companyName)
         .setCompanyName(Optional.ofNullable(companyName).map(str -> str.toLowerCase()).orElse(null))
         .setCompanyProfile(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, COMPANY_PROFILE))
@@ -81,15 +81,12 @@ public class JobsDbHtmlReader implements HtmlReader {
         .setTitle(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, TITLE))
         .setDetails(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, DETAILS))
         .setDetailsRaw(documentWrapper.getElementHtmlBySelector(JOB_AD_BODY, DETAILS))
-        .setCareerLevel(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_META_BOX,
-            CAREER_LEVEL, PRIMARY_META_LV))
+        .setCareerLevel(careerLevel)
         .setYearsOfExp(buildYearsOfExp(documentWrapper.getElementTextByClassNames(JOB_AD_BODY,
             PRIMARY_META_BOX, YEARS_OF_EXP)))
         .setQualification(documentWrapper.getElementTextByClassNames(JOB_AD_BODY, PRIMARY_META_BOX,
             QUALIFICATION))
-        .setIndustry(documentWrapper.getElementTextBySelector(
-            documentWrapper.concatClassNamesSelector(JOB_AD_BODY, PRIMARY_META_BOX, INDUSTRY)
-                + " a"))
+        .setIndustry(industry)
         .setLocation(location)
         // TODO review how to store salary
         // .setSalary(salary)
@@ -107,10 +104,11 @@ public class JobsDbHtmlReader implements HtmlReader {
                     PRIMARY_GENERAL_BOX, JOBSDB_REF))
                 .map(txt -> txt.replace("jobsDB Ref.", "").trim()).orElse(null))
         .setUrl(url)
-        .addTag(DataUtils.toTag(location))
-        .addTags(Arrays.stream(employmentType.split(","))
-            .map(DataUtils::toTag)
-            .collect(Collectors.toSet()));
+        .addTags(location)
+        .addTags(careerLevel)
+        .addTags(industry);
+    if (!DataUtils.isEmpty(employmentType))
+      jobAd.addTags(Arrays.asList(employmentType.split(",")));
     return jobAd;
   }
 

@@ -9,6 +9,8 @@ import com.dotterbear.jobad.reader.data.model.JobAd;
 
 public interface HtmlReader {
 
+  public static final String A_TAG = "a";
+
   public String getUserAgent();
 
   public int getTimeout();

@@ -4,9 +4,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.TextScore;
+import com.dotterbear.jobad.reader.utils.DataUtils;
 
 @Document(collection = "JobAd")
 public class JobAd {
@@ -60,6 +62,10 @@ public class JobAd {
 
   @TextScore
   private Float score;
+
+  public JobAd() {
+    tags = new HashSet<String>();
+  }
 
   public String getId() {
     return id;
@@ -275,25 +281,23 @@ public class JobAd {
     this.tags = tags;
   }
 
-  public JobAd addTag(String tag) {
-    if (tag == null)
+  public JobAd addTags(String tag) {
+    if (DataUtils.isEmpty(tag))
       return this;
-    initTags();
-    tags.add(tag);
+    tags.add(buildTag(tag));
     return this;
   }
 
   public JobAd addTags(Collection<String> tags) {
-    if (tags == null)
+    if (DataUtils.isEmpty(tags))
       return this;
-    initTags();
-    tags.addAll(tags);
+    this.tags.addAll(tags.stream().filter(DataUtils::isEmpty).map(tag -> buildTag(tag))
+        .collect(Collectors.toSet()));
     return this;
   }
 
-  private void initTags() {
-    if (tags == null)
-      tags = new HashSet<String>();
+  private String buildTag(String str) {
+    return str.toLowerCase().trim();
   }
 
   @Override

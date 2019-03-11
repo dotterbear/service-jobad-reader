@@ -50,9 +50,9 @@ public class JobAdService {
         size, direction, orderBy, query, companyName);
     Pageable pagable = PageRequest.of(page - 1, size, Sort.by(direction, orderBy));
     Query dbQuery = new Query().with(pagable);
-    if (!DataUtils.isEmptyString(query))
+    if (!DataUtils.isEmpty(query))
       dbQuery.addCriteria(TextCriteria.forDefaultLanguage().matchingAny(query));
-    if (!DataUtils.isEmptyString(companyName))
+    if (!DataUtils.isEmpty(companyName))
       dbQuery.addCriteria(Criteria.where("companyName").is(companyName));
     long count = mongoTemplate.count(dbQuery, JobAd.class);
     List<JobAd> jobAds = mongoTemplate.find(dbQuery, JobAd.class);
