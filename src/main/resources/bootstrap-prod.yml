@@ -1,6 +1,6 @@
 eureka:
   instance:
-    hostname: ENC(1JypzSnMMiWY+x1fGTnJuMFVRODMR2Jl)
+    hostname: ENC(v17LM+jUjauf6SEPbGEtkIkzxVuX92ek)
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
